@@ -1,4 +1,4 @@
-package majority_element
+package leetcode
 
 import "sort"
 
