@@ -7,8 +7,8 @@ import (
 	"gocoder/leetcode"
 )
 
-// Test cases for MaxProfit function
-var maxProfitTestCases = []struct {
+// Test cases for MaxProfitInfTransaction function
+var MaxProfitInfTransactionTestCases = []struct {
 	name     string
 	input    []int
 	expected int
@@ -16,7 +16,7 @@ var maxProfitTestCases = []struct {
 	{
 		name:     "Normal case with profit",
 		input:    []int{7, 1, 5, 3, 6, 4},
-		expected: 5,
+		expected: 7,
 	},
 	{
 		name:     "Descending prices",
@@ -36,15 +36,15 @@ var maxProfitTestCases = []struct {
 	{
 		name:     "Mixed prices with moderate profit",
 		input:    []int{3, 2, 6, 5, 0, 3},
-		expected: 4,
+		expected: 7,
 	},
 }
 
-// TestMaxProfit runs all test cases for MaxProfit function
-func TestMaxProfit(t *testing.T) {
-	for _, tc := range maxProfitTestCases {
+// TestMaxProfitInfTransaction runs all test cases for MaxProfitInfTransaction function
+func TestMaxProfitInfTransaction(t *testing.T) {
+	for _, tc := range MaxProfitInfTransactionTestCases {
 		t.Run(tc.name, func(t *testing.T) {
-			profit := leetcode.MaxProfit(tc.input)
+			profit := leetcode.MaxProfitInfTransaction(tc.input)
 			assert.Equal(t, tc.expected, profit, "Test case: %s", tc.name)
 		})
 	}
