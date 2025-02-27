@@ -1,5 +1,7 @@
 package leetcode
 
+import "fmt"
+
 func TargetSumSubset(nums []int, target int) bool {
 	n := len(nums)
 	rows, cols := n+1, target+1
@@ -7,6 +9,9 @@ func TargetSumSubset(nums []int, target int) bool {
 	for i := range dp {
 		dp[i] = make([]bool, cols)
 	}
+
+	fmt.Println("Initial DP Table:")
+	printDPTable(dp)
 
 	for i := 0; i < rows; i++ {
 		for j := 0; j < cols; j++ {
@@ -31,7 +36,23 @@ func TargetSumSubset(nums []int, target int) bool {
 				}
 			}
 		}
+		fmt.Printf("After processing row %d:\n", i)
+		printDPTable(dp)
 	}
 
 	return dp[n][target]
+}
+
+func printDPTable(dp [][]bool) {
+	for _, row := range dp {
+		for _, val := range row {
+			if val {
+				fmt.Print("T ")
+			} else {
+				fmt.Print("F ")
+			}
+		}
+		fmt.Println()
+	}
+	fmt.Println()
 }
