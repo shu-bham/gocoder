@@ -24,3 +24,17 @@ func HIndex(citations []int) int {
 
 	return -1
 }
+
+// space optimised
+func HIndexV2(citations []int) int {
+	slices.Sort(citations)
+	n := len(citations)
+
+	for i, c := range citations {
+		h := n - i
+		if c >= h {
+			return h
+		}
+	}
+	return 0
+}
