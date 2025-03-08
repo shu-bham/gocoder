@@ -2,6 +2,7 @@ package leetcode
 
 import (
 	"fmt"
+	"gocoder/util"
 	"math"
 )
 
@@ -10,7 +11,7 @@ func ClosestPrimes(left int, right int) []int {
 	diff := math.MaxInt
 	a, b := -1, -1
 	for i := left; i <= right; i++ {
-		if IsPrime(i) {
+		if util.IsPrime(i) {
 			if prevPrime == -1 {
 				prevPrime = i
 			} else {
@@ -31,16 +32,4 @@ func ClosestPrimes(left int, right int) []int {
 	}
 
 	return []int{a, b}
-}
-
-func IsPrime(n int) bool {
-	if n <= 1 {
-		return false
-	}
-	for i := 2; i*i <= n; i++ {
-		if n%i == 0 {
-			return false
-		}
-	}
-	return true
 }
