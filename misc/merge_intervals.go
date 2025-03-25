@@ -33,3 +33,27 @@ func MergeIntervals(intervals [][]int) [][]int {
 	return res
 
 }
+
+func MergeIntervalsInplace(intervals [][]int) [][]int {
+	if len(intervals) <= 1 {
+		return intervals
+	}
+
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+
+	lastMergedIdx := 0
+
+	for i := 1; i < len(intervals); i++ {
+		if intervals[lastMergedIdx][1] >= intervals[i][0] {
+			intervals[lastMergedIdx][1] = max(intervals[lastMergedIdx][1], intervals[i][1])
+		} else {
+			lastMergedIdx++
+			intervals[lastMergedIdx] = intervals[i]
+		}
+	}
+
+	return intervals[:lastMergedIdx+1]
+
+}
