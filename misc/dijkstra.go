@@ -63,6 +63,11 @@ func ShortestPathFromSrc(n int, src int, edges [][]int) []int {
 		pop := pq.Pop().(PQPair)
 		u := pop.vertex
 
+		// skip stale entries
+		if pop.distance > dist[u] {
+			continue
+		}
+
 		for _, nbr := range adjList[u] {
 			v, weight := nbr.vertex, nbr.weight
 			if dist[v] > dist[u]+weight {
