@@ -5,6 +5,7 @@ import (
 	"sort"
 )
 
+// Medium: https://leetcode.com/problems/minimum-operations-to-make-a-uni-value-grid
 func MinOperationsToMakeUniVal(grid [][]int, x int) int {
 	n, m := len(grid), len(grid[0])
 	rem := grid[0][0] % x
