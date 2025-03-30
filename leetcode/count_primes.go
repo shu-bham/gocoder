@@ -9,6 +9,7 @@ func CountPrimes(n int) int {
 		primes[i] = true
 	}
 
+	// Sieve of Eratosthenes
 	for i := 2; i*i <= n; i++ {
 		if primes[i] {
 			for j := i * i; j <= n; j += i {
