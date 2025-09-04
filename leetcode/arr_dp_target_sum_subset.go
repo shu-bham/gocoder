@@ -26,7 +26,7 @@ func TargetSumSubset(nums []int, target int) bool {
 					// if player i don't play to score j runs
 					dp[i][j] = true
 				} else {
-					// if player i play to score runs = nums[i-1
+					// if player i play to score runs = nums[i-1]
 					val := nums[i-1]
 					if j >= val {
 						if dp[i-1][j-val] {
