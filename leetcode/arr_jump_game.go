@@ -23,14 +23,16 @@ func CanJump(nums []int) bool {
 }
 
 func CanJumpV2(nums []int) bool {
-	maxJump := 0
+	maxJump := 0 // maxjump is max jump available at any moment
 	for _, val := range nums {
 		if maxJump < 0 {
 			return false
 		} else if val > maxJump {
+			// replenish jump whenever val is greater than maxjump
 			maxJump = val
 		}
 		//fmt.Println(val, maxJump)
+		// decrease available jump after current iteration move
 		maxJump--
 	}
 	return true
