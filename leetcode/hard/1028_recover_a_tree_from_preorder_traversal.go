@@ -9,6 +9,8 @@ At each node in this traversal, we output D dashes (where D is the depth of this
 If a node has only one child, that child is guaranteed to be the left child.
 
 Given the output traversal of this traversal, recover the tree and return its root.
+
+'Amazon', 'Linkedin'
 */
 
 /**

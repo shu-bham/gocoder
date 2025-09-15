@@ -4,6 +4,7 @@ package hard
 // Let W be the length of words
 // L be the maximum length of any word in words,
 // and A be the size of the alphabet (in this case, A=26).
+// Amazon
 // Time complexity: O(2^W * (WL+A)).
 // Space complexity: O(A)
 func MaxScoreWords(words []string, letters []byte, score []int) int {
