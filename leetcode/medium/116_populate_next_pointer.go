@@ -76,3 +76,32 @@ func Connect(root *Node) *Node {
 
 	return root
 }
+
+// another appraoch without queue, iterate levels via Next
+func ConnectV2(root *Node) *Node {
+	if root == nil {
+		return root
+	}
+
+	if root.Left == nil && root.Right == nil {
+		return root
+	}
+
+	var leftMost *Node = root
+	var head *Node
+
+	for leftMost.Left != nil {
+		head = leftMost
+		// process a single level
+		for head != nil {
+			head.Left.Next = head.Right
+			if head.Next != nil {
+				head.Right.Next = head.Next.Left
+			}
+			head = head.Next
+		}
+		leftMost = leftMost.Left
+	}
+
+	return root
+}
