@@ -1,6 +1,7 @@
-package google
+package google_test
 
 import (
+	"gocoder/google"
 	"testing"
 )
 
@@ -75,7 +76,7 @@ func TestCoinChangeII(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := CoinChangeII(tt.amount, tt.coins)
+			got := google.CoinChangeII(tt.amount, tt.coins)
 			if got != tt.expected {
 				t.Errorf("CoinChangeII(%d, %v) got = %d, want %d", tt.amount, tt.coins, got, tt.expected)
 			}
@@ -154,10 +155,12 @@ func TestCoinChangeIIv2(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := CoinChangeIIv2(tt.amount, tt.coins)
+			got := google.CoinChangeIIv2(tt.amount, tt.coins)
 			if got != tt.expected {
 				t.Errorf("CoinChangeII(%d, %v) got = %d, want %d", tt.amount, tt.coins, got, tt.expected)
 			}
 		})
 	}
+
+	google.IsPalindrome("race a car")
 }
