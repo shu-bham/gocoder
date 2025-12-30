@@ -33,6 +33,7 @@ func LengthOfLIS(nums []int) int {
 	return ans
 }
 
+// patience sort
 func LengthOfLISv2(nums []int) int {
 	if len(nums) == 0 {
 		return 0
