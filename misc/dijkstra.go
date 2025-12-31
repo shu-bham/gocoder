@@ -60,7 +60,7 @@ func ShortestPathFromSrc(n int, src int, edges [][]int) []int {
 	heap.Push(pq, PQPair{0, src})
 
 	for pq.Len() > 0 {
-		pop := pq.Pop().(PQPair)
+		pop := heap.Pop(pq).(PQPair)
 		u := pop.vertex
 
 		// skip stale entries
