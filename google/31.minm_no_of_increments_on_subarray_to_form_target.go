@@ -1,45 +1,121 @@
 package google
 
-import "math"
-
-func MinNumberOperations(target []int) int {
-	n := len(target)
-	return countways(target, 0, n-1)
+type SegmentTreeNode struct {
+	left      *SegmentTreeNode
+	right     *SegmentTreeNode
+	minVal    int
+	minimaPos []int
 }
 
-func countways(target []int, i int, j int) int {
-	start := i
-	end := j
-	if i < 0 || i >= len(target) || j < 0 || j >= len(target) {
-		return 0
+type SegmentTree struct {
+	n    int
+	root *SegmentTreeNode
+}
+
+func NewTreeNode(left *SegmentTreeNode, right *SegmentTreeNode, minVal int, pos []int) *SegmentTreeNode {
+	if pos == nil {
+		pos = []int{}
 	}
-	if i == j {
-		return target[i]
+	return &SegmentTreeNode{
+		left:      left,
+		right:     right,
+		minVal:    minVal,
+		minimaPos: pos,
+	}
+}
+
+func NewSegmentTree(arr []int) *SegmentTree {
+	st := &SegmentTree{
+		n: len(arr),
+	}
+	st.root = st.build(arr, 0, st.n-1)
+	return st
+}
+
+func (st *SegmentTree) build(arr []int, left int, right int) *SegmentTreeNode {
+	if left == right {
+		return NewTreeNode(nil, nil, arr[left], []int{left})
+	}
+	mid := (left + right) / 2
+	leftChild := st.build(arr, left, mid)
+	rightChild := st.build(arr, mid+1, right)
+
+	node := &SegmentTreeNode{
+		left:  leftChild,
+		right: rightChild,
 	}
 
-	var zeroPos []int
-	minEle := math.MaxInt
-	ans := 0
-	for index, elem := range target {
-		if elem == 0 {
-			zeroPos = append(zeroPos, index)
+	if leftChild.minVal < rightChild.minVal {
+		node.minVal = leftChild.minVal
+		node.minimaPos = append([]int{}, leftChild.minimaPos...)
+	} else if leftChild.minVal > rightChild.minVal {
+		node.minVal = rightChild.minVal
+		node.minimaPos = append([]int{}, rightChild.minimaPos...)
+	} else {
+		node.minVal = rightChild.minVal
+		node.minimaPos = append(leftChild.minimaPos, rightChild.minimaPos...)
+	}
+	return node
+
+}
+
+func (st *SegmentTree) Query(ltarget, rtarget int) (int, []int) {
+	return st.query(ltarget, rtarget, 0, st.n-1, st.root)
+}
+
+func (st *SegmentTree) query(ltarget int, rtarget int, l int, r int, node *SegmentTreeNode) (int, []int) {
+	if ltarget == l && rtarget == r {
+		return node.minVal, node.minimaPos
+	}
+	mid := (l + r) / 2
+	if rtarget <= mid {
+		return st.query(ltarget, rtarget, l, mid, node.left)
+	} else if ltarget > mid {
+		return st.query(ltarget, rtarget, mid+1, r, node.right)
+	} else {
+		lminVal, lPos := st.query(ltarget, mid, l, mid, node.left)
+		rminVal, rPos := st.query(mid+1, rtarget, mid+1, r, node.right)
+
+		if lminVal < rminVal {
+			return lminVal, lPos
+		} else if rminVal < lminVal {
+			return rminVal, rPos
+		} else {
+			return lminVal, append(lPos, rPos...)
 		}
-		minEle = min(minEle, elem)
 	}
+}
 
-	var points [][]int
-	for _, index := range zeroPos {
-		points = append(points, []int{start, index - 1})
-		start = index + 1
+type interval struct {
+	left  int
+	right int
+	val   int
+}
+
+func MinNumberOperations(target []int) int {
+	stree := NewSegmentTree(target)
+	intervals := []interval{{0, len(target) - 1, 0}}
+	operations := 0
+	for len(intervals) > 0 {
+		interval_ := intervals[len(intervals)-1]
+		intervals = intervals[:len(intervals)-1]
+
+		left, right, val := interval_.left, interval_.right, interval_.val
+		if right < left {
+			continue
+		}
+		intervalMin, pos := stree.Query(left, right)
+		operations += (intervalMin - val)
+		val = intervalMin
+		for _, breakPoint := range pos {
+			if breakPoint-1 >= left {
+				intervals = append(intervals, interval{left, breakPoint - 1, val})
+			}
+			left = breakPoint + 1
+		}
+		if right >= left {
+			intervals = append(intervals, interval{left, right, val})
+		}
 	}
-	if start != i {
-		points = append(points, []int{start, end})
-	}
-
-	for _, ints := range points {
-		ans += countways(target, ints[0], ints[1])
-	}
-
-	return minEle + countways(target, i, j)
-
+	return operations
 }

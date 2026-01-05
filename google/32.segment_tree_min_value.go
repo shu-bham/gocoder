@@ -27,13 +27,13 @@ func query(index int, lo int, hi int, l int, r int, segTree []int) int {
 	return min(leftRes, rightRes)
 }
 
-func buildTree(arr []int, index int, lo int, hi int, segTree *[]int) {
-	if lo == hi {
-		(*segTree)[index] = arr[lo]
+func buildTree(arr []int, index int, left int, right int, segTree *[]int) {
+	if left == right {
+		(*segTree)[index] = arr[left]
 		return
 	}
-	mid := (lo + hi) / 2
-	buildTree(arr, 2*index+1, lo, mid, segTree)
-	buildTree(arr, 2*index+2, mid+1, hi, segTree)
+	mid := (left + right) / 2
+	buildTree(arr, 2*index+1, left, mid, segTree)
+	buildTree(arr, 2*index+2, mid+1, right, segTree)
 	(*segTree)[index] = min((*segTree)[2*index+1], (*segTree)[2*index+2])
 }
