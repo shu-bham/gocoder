@@ -9,6 +9,7 @@ func (p pq) Len() int {
 }
 
 func (p pq) Less(i, j int) bool {
+	// We want a max-heap, so we use >
 	return p[i] > p[j]
 }
 
@@ -29,17 +30,20 @@ func (p *pq) Pop() any {
 }
 
 func FindKthLargest(nums []int, k int) int {
-	maxHeap := &pq{}
-	heap.Init(maxHeap)
+	// Create a slice of type pq (which is []int) and copy the data.
+	// This prevents modifying the original input slice.
+	maxHeapData := make(pq, len(nums))
+	copy(maxHeapData, nums)
 
-	for _, num := range nums {
-		heap.Push(maxHeap, num)
+	// heap.Init on a pre-populated slice is an O(N) operation.
+	// We pass a pointer because the heap functions modify the slice's length.
+	heap.Init(&maxHeapData)
+
+	// Pop k-1 elements to get to the kth largest.
+	for i := 0; i < k-1; i++ {
+		heap.Pop(&maxHeapData)
 	}
 
-	var ans int
-	for j := 1; j <= k; j++ {
-		ans = heap.Pop(maxHeap).(int)
-	}
-	return ans
-
+	// The top of the heap is now the kth largest element.
+	return heap.Pop(&maxHeapData).(int)
 }
