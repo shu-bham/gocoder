@@ -11,7 +11,8 @@ type LRUCache struct {
 	Capacity int
 }
 
-func Constructor(capacity int) LRUCache {
+// renamed to use other Constructor
+func LRUCacheConstructor(capacity int) LRUCache {
 	head := &DLNode{}
 	tail := &DLNode{}
 	head.Next = tail
