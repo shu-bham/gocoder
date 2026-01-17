@@ -1,8 +1,9 @@
 package entities
 
 type User struct {
-	Id   int
-	Name string
+	Id      int
+	Name    string
+	Phoneno string
 }
 
 type Address struct {

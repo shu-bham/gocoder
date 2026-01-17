@@ -1,6 +1,7 @@
 package entities
 
 type Instrument struct {
+	ID     int
 	Symbol string
 	Active bool
 }
