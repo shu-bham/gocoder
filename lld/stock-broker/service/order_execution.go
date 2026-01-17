@@ -2,6 +2,6 @@ package service
 
 import "gocoder/lld/stock-broker/entities"
 
-type IExecutionService interface {
+type ExecutionService interface {
 	Execute(order entities.Order) bool
 }

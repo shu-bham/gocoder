@@ -2,6 +2,6 @@ package service
 
 import "gocoder/lld/stock-broker/entities"
 
-type IOrderValidator interface {
+type OrderValidator interface {
 	Validate(userId int, order entities.Order) (bool, error)
 }

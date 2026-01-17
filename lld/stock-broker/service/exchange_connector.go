@@ -2,7 +2,7 @@ package service
 
 import "gocoder/lld/stock-broker/entities"
 
-type IExchangeConnector interface {
+type ExchangeConnector interface {
 	GetRealTimePrice(symbol string) entities.LiveFeed
-	SendOrderToExchange(orderId entities.Order) (bool, error)
+	SendOrderToExchange(order entities.Order) (bool, error)
 }

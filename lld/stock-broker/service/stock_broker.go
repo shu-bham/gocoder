@@ -3,17 +3,27 @@ package service
 import "gocoder/lld/stock-broker/entities"
 
 type StockBroker struct {
-	Validator         IOrderValidator
-	ExchangeConnector IExchangeConnector
-	ExecutionService  IExecutionService
-	WalletManager     IWalletManager
-	PortfolioManager  IPortfolioManager
+	Validator         OrderValidator
+	ExchangeConnector ExchangeConnector
+	ExecutionService  ExecutionService
+	WalletManager     WalletManager
+	PortfolioManager  PortfolioManager
 }
 
-type IStockBrokerService interface {
+type StockBrokerService interface {
 	PlaceOrder(userId int, order entities.Order) bool
 	GetPortfolio(userId int) entities.UserPortfolio
 	AddFunds(userId int, amount float64) bool
+}
+
+func NewStockBroker(v OrderValidator, e ExchangeConnector, ex ExecutionService, w WalletManager, p PortfolioManager) *StockBroker {
+	return &StockBroker{
+		Validator:         v,
+		ExchangeConnector: e,
+		ExecutionService:  ex,
+		WalletManager:     w,
+		PortfolioManager:  p,
+	}
 }
 
 func (s *StockBroker) PlaceOrder(userId int, order entities.Order) bool {
@@ -42,5 +52,12 @@ func (s *StockBroker) GetPortfolio(userId int) entities.UserPortfolio {
 }
 
 func (s *StockBroker) AddFunds(userId int, amount float64) bool {
+	return s.WalletManager.AddFunds(userId, amount)
+}
 
+// OnPriceUpdate implements IPriceObserver
+func (s *StockBroker) OnPriceUpdate(feed entities.LiveFeed) {
+	// In a real app, check 'Open Orders' to see if any Limit Order matches this price
+	// For now, we just acknowledge the update
+	// fmt.Printf("Broker received price update for Instrument %d: %f\n", feed.InstrumentId, feed.LastTradedPrice)
 }
