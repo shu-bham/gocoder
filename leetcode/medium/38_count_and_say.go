@@ -39,20 +39,24 @@ func f(n int, dp map[int]string) string {
 }
 
 func rle(str string) string {
+	if str == "" {
+		return ""
+	}
 	var ans strings.Builder
+	runes := []rune(str)
 	currCount := 1
-	for i := 1; i < len(str); i++ {
-		if str[i] == str[i-1] {
+	for i := 1; i < len(runes); i++ {
+		if runes[i] == runes[i-1] {
 			currCount++
 		} else {
 			ans.WriteString(strconv.Itoa(currCount))
-			ans.WriteString(string(str[i-1]))
+			ans.WriteRune(runes[i-1])
 			currCount = 1
 		}
 
 	}
 	ans.WriteString(strconv.Itoa(currCount))
-	ans.WriteString(string(str[len(str)-1]))
+	ans.WriteRune(runes[len(runes)-1])
 	return ans.String()
 }
 
